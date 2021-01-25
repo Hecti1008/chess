@@ -137,6 +137,8 @@ public class Inici extends javax.swing.JFrame {
                     }else{
                         mostraErrorMoviment()}
                 }
+                }
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
