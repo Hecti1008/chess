@@ -124,22 +124,19 @@ public class Inici extends javax.swing.JFrame {
                                     
             }else{ if jugaO && EsO(fila,columna){
                 ActualitzaNouOrigen(fila,columna)
-                 }}
-        }else{ 
-            mostraError()
-        }
-
-
-sino
-	si movimentVàlid(fila,columna) llavors //si diagonal cap avall per X o cap a dalt per O
-		si esBuit(fila,columna) o OcupatContrari(fila,columna) llavors mou(fila,columna)
-			fsi
-		Fsi
-	sino si OcupatPropi(fila,columna) llavors actualitzaNouOrigen(fila,columna)
-		fisi		
-		sino mostraErrorMoviment()
-
-
+                }else{ 
+                mostraError()}
+            }
+        }else{
+            if (movimentVàlid(fila,columna)){ //si diagonal cap avall per X o cap a dalt per O
+		if (esBuit(fila,columna) || OcupatContrari(fila,columna)){ 
+                    mou(fila,columna)
+                }else{
+                    if (OcupatPropi(fila,columna)){
+                        actualitzaNouOrigen(fila,columna)
+                    }else{
+                        mostraErrorMoviment()}
+                }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
