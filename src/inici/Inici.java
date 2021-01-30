@@ -193,7 +193,28 @@ public class Inici extends javax.swing.JFrame {
     }
     
     private boolean noHiHaOrigen(){
-        return jTable.getSelected
+        boolean noTeOrigen = false;
+        if(filaOrigen == -1 ||
+           columnaOrigen == -1 ){
+                noTeOrigen = true;
+        }
+        return noTeOrigen;
+    }
+    
+    public boolean EsX(int fila, int columna){
+        boolean esx = false;
+        if(jTable1.getValueAt(fila, columna) == "X"){
+            esx = true;
+        }
+        return esx;
+    }
+    
+    public boolean EsO(int fila, int columna){
+        boolean eso = false;
+        if(jTable1.getValueAt(fila, columna) == "O"){
+            eso = true;
+        }
+        return eso;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
