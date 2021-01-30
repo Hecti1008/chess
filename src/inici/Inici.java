@@ -137,7 +137,7 @@ public class Inici extends javax.swing.JFrame {
                     mou(fila,columna);
                 }else{
                     if (OcupatPropi(fila,columna)){
-                        actualitzaNouOrigen(fila,columna);
+                        ActualitzaNouOrigen(fila,columna);
                     }else{
                         mostraErrorMoviment();}
                 }
