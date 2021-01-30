@@ -241,14 +241,33 @@ public class Inici extends javax.swing.JFrame {
         int filaCalculs =  filaObjectiu - filaOrigen;
         
         if(jugaO && (filaCalculs == -1) && 
-                ((columnaCalculs == 1) || (columnaCalculs ==  -1))){
+                ((columnaCalculs == 1) ||
+                (columnaCalculs ==  -1))){
             esMovimentValid = true;
         } else if (jugaX && (filaCalculs == 1) && 
-                ((columnaCalculs == 1) || (columnaCalculs ==  -1))) {
+                ((columnaCalculs == 1) ||
+                (columnaCalculs ==  -1))) {
             esMovimentValid = true;
         }
         
         return esMovimentValid;
+    }
+    
+    public boolean esBuit(int fila, int columna){
+        boolean estaBuit = false;
+        if(jTable1.getValueAt(fila, columna) == null){
+            estaBuit = true;
+        }
+        return estaBuit;
+    }
+    
+    public boolean OcupatContrari(int fila, int columna){
+        boolean estaOcupatContrari = false;
+        if((jugaX == true && EsO(fila, columna) == true) ||
+                (jugaO == true && EsX(fila, columna) == true)){
+            estaOcupatContrari = true;
+        }
+        return estaOcupatContrari;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
