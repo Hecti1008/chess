@@ -121,23 +121,24 @@ public class Inici extends javax.swing.JFrame {
         columna = obtenirColumnaClicada();
         
         if (noHiHaOrigen()){
+            
             if (jugaX && EsX(fila,columna)){
-                ActualitzaNouOrigen(fila,columna)
+                ActualitzaNouOrigen(fila,columna);
                                     
-            }else{ if jugaO && EsO(fila,columna){
-                ActualitzaNouOrigen(fila,columna)
+            }else if(jugaO && EsO(fila,columna)){
+                ActualitzaNouOrigen(fila,columna);
                 }else{ 
-                mostraError()}
-            }
+                mostraError();}
+            
         }else{
-            if (movimentVàlid(fila,columna)){ //si diagonal cap avall per X o cap a dalt per O
+            if (movimentVàlid(fila,columna)){ 
 		if (esBuit(fila,columna) || OcupatContrari(fila,columna)){ 
-                    mou(fila,columna)
+                    mou(fila,columna);
                 }else{
                     if (OcupatPropi(fila,columna)){
-                        actualitzaNouOrigen(fila,columna)
+                        actualitzaNouOrigen(fila,columna);
                     }else{
-                        mostraErrorMoviment()}
+                        mostraErrorMoviment();}
                 }
                 }
         }
@@ -215,6 +216,11 @@ public class Inici extends javax.swing.JFrame {
             eso = true;
         }
         return eso;
+    }
+    
+    public void ActualitzaNouOrigen(int fila, int columna){
+        filaOrigen = fila;
+        columnaOrigen = columna;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
