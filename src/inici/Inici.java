@@ -269,6 +269,23 @@ public class Inici extends javax.swing.JFrame {
         }
         return estaOcupatContrari;
     }
+    
+    public boolean OcupatPropi(int fila, int columna) {
+        boolean estaOcupatPropi = false;
+        if((jugaX == true && EsX(fila, columna) == true)
+                || (jugaO == true && EsO(fila, columna) == true)){
+            estaOcupatPropi  = true;
+        }
+        
+        return estaOcupatPropi;
+    }
+    
+    public void mostraErrorMoviment() {
+        JOptionPane.showMessageDialog(null, "Moviment no valid", "Chess", 
+                JOptionPane.ERROR_MESSAGE);
+        filaObjectiu = -1;
+        columnaObjectiu = -1;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
