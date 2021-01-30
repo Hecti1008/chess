@@ -5,6 +5,7 @@
  */
 package inici;
 
+import javax.swing.JOptionPane;
 /**
  *
  * @author megah
@@ -183,6 +184,8 @@ public class Inici extends javax.swing.JFrame {
     private boolean jugaO = false;
     private int filaOrigen = -1;
     private int columnaOrigen = -1;
+    private int filaObjectiu = -1;
+    private int columnaObjectiu = -1;
     
     
     private int obtenirFilaClicada(){
@@ -221,6 +224,31 @@ public class Inici extends javax.swing.JFrame {
     public void ActualitzaNouOrigen(int fila, int columna){
         filaOrigen = fila;
         columnaOrigen = columna;
+    }
+    
+    public void mostraError(){
+        JOptionPane.showMessageDialog(null, "Error", "Chess",
+                JOptionPane.ERROR_MESSAGE);
+        filaOrigen = -1;
+        columnaOrigen = -1;
+    }
+    
+    public boolean movimentValid(int fila, int columna){
+        boolean esMovimentValid = false;
+        filaObjectiu = fila;
+        columnaObjectiu = columna;
+        int columnaCalculs = columnaObjectiu - columnaOrigen;
+        int filaCalculs =  filaObjectiu - filaOrigen;
+        
+        if(jugaO && (filaCalculs == -1) && 
+                ((columnaCalculs == 1) || (columnaCalculs ==  -1))){
+            esMovimentValid = true;
+        } else if (jugaX && (filaCalculs == 1) && 
+                ((columnaCalculs == 1) || (columnaCalculs ==  -1))) {
+            esMovimentValid = true;
+        }
+        
+        return esMovimentValid;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
