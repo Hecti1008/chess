@@ -6,6 +6,11 @@
 package inici;
 
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 /**
  *
  * @author megah
@@ -132,7 +137,7 @@ public class Inici extends javax.swing.JFrame {
                 mostraError();}
             
         }else{
-            if (movimentVàlid(fila,columna)){ 
+            if (movimentValid(fila,columna)){ 
 		if (esBuit(fila,columna) || OcupatContrari(fila,columna)){ 
                     mou(fila,columna);
                 }else{
@@ -285,6 +290,100 @@ public class Inici extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
         filaObjectiu = -1;
         columnaObjectiu = -1;
+    }
+    
+    public void mou(int fila, int columna) {
+        int comprovador = 0;
+        crearMovimient(columnaOrigen, columna, filaOrigen, fila);
+        jTable1.setValueAt(null, filaOrigen, columnaOrigen);
+        if (jugaO) {
+            jTable1.setValueAt("O", fila, columna);
+            filaOrigen = -1;
+            columnaOrigen = -1;
+            if(comprovador == 0) {
+                comprovador = 1;
+                jugaO = false;
+                jugaX = true;
+            }
+        } else {
+            jTable1.setValueAt("X", fila, columna);
+            filaOrigen = -1;
+            columnaOrigen = -1;
+            if(comprovador == 0) {
+                comprovador = 1;
+                jugaO = true;
+                jugaX = false;
+            }
+            comprovador = 0;
+        }
+    }
+    
+    public void ganador(int fila, int columna) {
+        
+        if(EsX(fila, columna) && fila == 7) {
+            jugaX = false; 
+            jugaO = false;
+            JOptionPane.showMessageDialog(null, "Guanyen les X", "Chess", 
+                JOptionPane.OK_OPTION);
+            PantallaPartida PP = new PantallaPartida();
+            PP.setVisible(true);
+            dispose();
+            crearPartida("X");
+        } else if (EsO(fila, columna) && fila == 0) {
+            jugaX = false; 
+            jugaO = false;
+            JOptionPane.showMessageDialog(null, "Guanyen les O", "Chess", 
+                JOptionPane.OK_OPTION);
+            PantallaPartida PP = new PantallaPartida();
+            PP.setVisible(true);
+            dispose();
+            crearPartida("O");
+        }
+    }
+    
+    public static void crearMoviment(int columnaOrigen int columnaObjectiu,
+            int filaOrigen, int filaObjectiu){
+            
+            movimient = new Movimient(partida, 
+                columnaOrigen, columnaObjectiu, filaOrigen, filaObjectiu);
+    
+        Session session = sf.openSession();
+        Transaction transaction = null;
+        movimient.setPartida(partida);
+        movimient.setColumnaOrigen(columnaOrigen);
+        movimient.setColumnaDestino(columnaObjectiu);
+        movimient.setFilaOrigen(filaOrigen);
+        movimient.setFilaDestino(filaObjectiu);
+        
+        try {
+            transactio = session.beginTransaction();
+            session.save(movimient);
+            transactio.commit();
+            
+        } catch (HibernateException e) {
+            System.out.println(" Bones " + e);
+        } finally {
+            session.close();
+        }
+    }
+            
+    public static void crearPartida(String ganador){
+        
+        Session session = sf.openSession();
+        Transactio transactio = null;
+        partida.setGanador(ganador);
+        
+        try {
+            transactio = session.beginTransaction();
+            session.saveOrUpdate(partida);
+            transactio.commit();
+        
+        } catch (HibernateException e) {
+            System.out.println(" a " + e);
+        } finally {
+            session.close();
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
