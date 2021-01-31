@@ -5,6 +5,8 @@
  */
 package inici;
 
+import entity.Moviment;
+import entity.Partida;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -121,6 +123,7 @@ public class Inici extends javax.swing.JFrame {
         int columna;
         int numX = 0;
         int numO = 0;
+        
 
         
         fila = obtenirFilaClicada();
@@ -191,6 +194,10 @@ public class Inici extends javax.swing.JFrame {
     private int columnaOrigen = -1;
     private int filaObjectiu = -1;
     private int columnaObjectiu = -1;
+    private static SessionFactory sf;
+    private static Partida partida;
+    private static Moviment moviment;
+    
     
     
     private int obtenirFilaClicada(){
@@ -294,7 +301,7 @@ public class Inici extends javax.swing.JFrame {
     
     public void mou(int fila, int columna) {
         int comprovador = 0;
-        crearMovimient(columnaOrigen, columna, filaOrigen, fila);
+        crearMoviment(columnaOrigen, columna, filaOrigen, fila);
         jTable1.setValueAt(null, filaOrigen, columnaOrigen);
         if (jugaO) {
             jTable1.setValueAt("O", fila, columna);
@@ -318,7 +325,7 @@ public class Inici extends javax.swing.JFrame {
         }
     }
     
-    public void ganador(int fila, int columna) {
+    public void guanyador(int fila, int columna) {
         
         if(EsX(fila, columna) && fila == 7) {
             jugaX = false; 
@@ -341,23 +348,23 @@ public class Inici extends javax.swing.JFrame {
         }
     }
     
-    public static void crearMoviment(int columnaOrigen int columnaObjectiu,
+    public static void crearMoviment(int columnaOrigen, int columnaObjectiu,
             int filaOrigen, int filaObjectiu){
             
-            movimient = new Movimient(partida, 
+            moviment = new Moviment(partida, 
                 columnaOrigen, columnaObjectiu, filaOrigen, filaObjectiu);
     
         Session session = sf.openSession();
-        Transaction transaction = null;
-        movimient.setPartida(partida);
-        movimient.setColumnaOrigen(columnaOrigen);
-        movimient.setColumnaDestino(columnaObjectiu);
-        movimient.setFilaOrigen(filaOrigen);
-        movimient.setFilaDestino(filaObjectiu);
+        Transaction transactio = null;
+        moviment.setPartida(partida);
+        moviment.setColumnaOrigen(columnaOrigen);
+        moviment.setColumnaObjectiu(columnaObjectiu);
+        moviment.setFilaOrigen(filaOrigen);
+        moviment.setFilaObjectiu(filaObjectiu);
         
         try {
             transactio = session.beginTransaction();
-            session.save(movimient);
+            session.save(moviment);
             transactio.commit();
             
         } catch (HibernateException e) {
@@ -367,11 +374,11 @@ public class Inici extends javax.swing.JFrame {
         }
     }
             
-    public static void crearPartida(String ganador){
+    public static void crearPartida(String guanyador){
         
         Session session = sf.openSession();
-        Transactio transactio = null;
-        partida.setGanador(ganador);
+        Transaction transactio = null;
+        partida.setGuanyador(guanyador);
         
         try {
             transactio = session.beginTransaction();
@@ -391,4 +398,6 @@ public class Inici extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
