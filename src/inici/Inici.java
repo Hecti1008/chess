@@ -17,13 +17,25 @@ import org.hibernate.cfg.Configuration;
  *
  * @author megah
  */
+
 public class Inici extends javax.swing.JFrame {
 
+    private boolean jugaX = true;
+    private boolean jugaO = false;
+    private int filaOrigen = -1;
+    private int columnaOrigen = -1;
+    private int filaObjectiu = -1;
+    private int columnaObjectiu = -1;
+    private static Session session;
+    private static Partida partida;
+    private static Moviment moviment;
     /**
      * Creates new form Inici
      */
     public Inici() {
         initComponents();
+        partida = new Partida("");
+        crearPartida("?");
     }
 
     /**
@@ -188,15 +200,7 @@ public class Inici extends javax.swing.JFrame {
         });
     }
     
-    private boolean jugaX = true;
-    private boolean jugaO = false;
-    private int filaOrigen = -1;
-    private int columnaOrigen = -1;
-    private int filaObjectiu = -1;
-    private int columnaObjectiu = -1;
-    private static SessionFactory sf;
-    private static Partida partida;
-    private static Moviment moviment;
+    
     
     
     
@@ -352,20 +356,20 @@ public class Inici extends javax.swing.JFrame {
             int filaOrigen, int filaObjectiu){
             
             moviment = new Moviment(partida, 
-                columnaOrigen, columnaObjectiu, filaOrigen, filaObjectiu);
+                    columnaOrigen, columnaObjectiu, filaOrigen, filaObjectiu);
     
-        Session session = sf.openSession();
-        Transaction transactio = null;
-        moviment.setPartida(partida);
+        
+        moviment.setIdPartida(partida);
         moviment.setColumnaOrigen(columnaOrigen);
         moviment.setColumnaObjectiu(columnaObjectiu);
         moviment.setFilaOrigen(filaOrigen);
         moviment.setFilaObjectiu(filaObjectiu);
         
         try {
-            transactio = session.beginTransaction();
-            session.save(moviment);
-            transactio.commit();
+            session = NewHibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.persist(moviment);
+            session.getTransaction().commit();
             
         } catch (HibernateException e) {
             System.out.println(" Bones " + e);
@@ -376,14 +380,14 @@ public class Inici extends javax.swing.JFrame {
             
     public static void crearPartida(String guanyador){
         
-        Session session = sf.openSession();
-        Transaction transactio = null;
+        
         partida.setGuanyador(guanyador);
         
         try {
-            transactio = session.beginTransaction();
+            session = NewHibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
             session.saveOrUpdate(partida);
-            transactio.commit();
+            session.getTransaction().commit();
         
         } catch (HibernateException e) {
             System.out.println(" a " + e);
